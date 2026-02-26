@@ -113,6 +113,16 @@
                 android:resource="@xml/file_provider" />
         </provider>
 
+        <!-- Stub Custom Tabs service so OAuth SDKs (Privy, etc.) discover
+             Jelly as a browser capable of handling Custom Tab intents. -->
+        <service
+            android:name=".CustomTabsStubService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.support.customtabs.action.CustomTabsService" />
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="android.webkit.WebView.EnableSafeBrowsing"
             android:value="true" />

@@ -83,6 +83,13 @@ internal class WebClient(
         if (request.isForMainFrame) {
             val webViewExt = view as WebViewExt
             val url = request.url.toString()
+
+            // Always dispatch non-web URI schemes as intents (e.g. OAuth deep links).
+            // These can never be loaded in WebView regardless of redirect status.
+            if (!UrlUtils.ACCEPTED_URI_SCHEMA.matcher(url).matches()) {
+                return startActivityForUrl(view, url)
+            }
+
             val needsLookup = (request.hasGesture()
                     || !TextUtils.equals(url, webViewExt.lastLoadedUrl))
             if (!webViewExt.isIncognito
